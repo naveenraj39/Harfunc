@@ -41,17 +41,7 @@ public class Base {
 		Actions DD = new Actions(driver);
 		DD.dragAndDrop(src, des).perform();
 		
-	/*	// first, get the source and target elements as JavaScript objects
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("let source = arguments[0], target = arguments[1];", src, des);
 
-		// next, create a new action chain and perform the drag and drop action using JavaScript
-		Actions action = new Actions(driver);
-		action.clickAndHold(src).moveToElement(des).release().build().perform();
-		js.executeScript("let evt = document.createEvent('MouseEvents');" +
-		                 "evt.initMouseEvent('mouseup', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);" +
-		                 "arguments[0].dispatchEvent(evt);", des);
-		                 */
 		
 	}
 	
