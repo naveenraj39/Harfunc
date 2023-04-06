@@ -410,7 +410,7 @@ public class Step1{
 			d.findElement(By.xpath("//*[text()='V1']")).click();
 		}
 		
-		@And("Add Gender Field")
+		@Then("Add Gender Field")
 		public void Gender_Field() throws Exception {
 			Thread.sleep(3000);
 			WebElement Cal = d.findElement(By.xpath("//*[text()='Radio']"));
@@ -645,7 +645,7 @@ public class Step1{
 			Thread.sleep(3000);
 			
 		}
-		@And("Add Allergy OG")
+		@Then("Add Allergy OG")
 		public void Allergy_OG() throws Exception {
 			
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Option Groups']")));
@@ -1055,7 +1055,7 @@ public class Step1{
 			Thread.sleep(3000);
 			
 		}
-		@Then("Add Condition")
+		@And("Add Condition")
 		public void Condition() throws Exception {
 			
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Add Group']")));
