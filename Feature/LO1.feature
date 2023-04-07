@@ -18,7 +18,7 @@ Then Add Covid vaccination date
 And Add Birth Year
 And Add Option Group
 Then Add Gender Field
-And Add Yes/No Option
+And Add Yes OR No Option
 And Does the patient has cancer?
 And Add Discharge Summary
 Then Add Asthma OG

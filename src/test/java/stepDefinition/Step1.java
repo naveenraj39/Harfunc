@@ -1,6 +1,9 @@
 package stepDefinition;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -25,11 +28,26 @@ public class Step1{
 	
 	public WebDriver d;
 	public WebDriverWait wait;
-	
+	public Scanner scan;
+	public String sname;
 	
 	
 	@Given("user logged in {string}")
 	public void user_logged_in(String string) {
+		scan = new Scanner(System.in); 
+	    System.out.println("Please Enter Study to Create New Study");
+	    sname = scan.nextLine();
+	    String StudyDetails = "/Users/naveenraj/Downloads/temp.txt";
+	    String path = System.getProperty(StudyDetails);
+	      
+        try {
+            FileWriter fw = new FileWriter(StudyDetails, true);
+            fw.write("\n"+sname);
+            fw.close();
+        }
+        catch(IOException e) {
+        }
+
 		System.setProperty("webd.chrome.d", "/Users/naveenraj/Downloads/chromed_mac_arm64/chromed");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--remote-allow-origins=*");
@@ -48,25 +66,46 @@ public class Step1{
 	public void Enter_into_Site(String string) throws InterruptedException {
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@type='text']")));
 		d.findElement(By.xpath("//*[@type='text']")).sendKeys("Alit Edc Pani");
+		Thread.sleep(1000);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='Alit Edc Pani']")));
 		d.findElement(By.xpath("//*[text()='Alit Edc Pani']")).click();
 		
 	}
 	
 	@Then("Enter into Study {string}")
-	public void Enter_into_Study(String string) {
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@type='text']")));
-		d.findElement(By.xpath("//*[@type='text']")).sendKeys("Harfunc");
+	public void Enter_into_Study(String string) throws Exception {
+		wait.until(ExpectedConditions.urlMatches("http://edc.devil.triomics.in.s3-website.ap-south-1.amazonaws.com/studies"));
+		
+	/*	d.findElement(By.xpath("//*[@type='text']")).sendKeys("Harfunc");
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[contains(text(),'Harfunc')]")));
-		d.findElement(By.xpath("//*[contains(text(),'Harfunc')]")).click();
+		d.findElement(By.xpath("//*[contains(text(),'Harfunc')]")).click();   */
+
+		Thread.sleep(2000);
+		d.findElement(By.xpath("//*[text()='+ New Study']")).click();
+		Thread.sleep(2000); 
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@type='text']")));
+		d.findElement(By.xpath("(//*[@type='text'])[2]")).sendKeys(sname);
+		d.findElement(By.xpath("(//*[@type='text'])[3]")).sendKeys(sname);
+		d.findElement(By.xpath("(//*[@aria-haspopup='listbox'])[1]")).click();
+		d.findElement(By.xpath("//*[text()='Phase I']")).click();
+		Thread.sleep(1000);
+		d.findElement(By.xpath("(//*[@aria-haspopup='listbox'])[2]")).click();
+		Thread.sleep(2000);
+		d.findElement(By.xpath("//*[text()='Both Remote and In-Person']")).click();
+		Thread.sleep(2000);
+		d.findElement(By.xpath("(//*[@aria-haspopup='listbox'])[3]")).click();
+		Thread.sleep(2000);
+		d.findElement(By.xpath("//*[text()='Double Blinded']")).click();
+		Thread.sleep(2000);
+		d.findElement(By.xpath("//*[text()='Create']")).click();
 		
 	} 
 	
 	@And("Enter into Build Form")
 	public void Enter_into_Build_Form() throws Exception{
-		wait.until(ExpectedConditions.urlMatches("http://edc.devil.triomics.in.s3-website.ap-south-1.amazonaws.com/studies/207Y5htBsixij5/manage/organisations"));
-		d.findElement(By.xpath("//*[text()='Administration']")).click();
-		d.findElement(By.xpath("//*[text()='Build']")).click();
+	//	wait.until(ExpectedConditions.urlMatches("http://edc.devil.triomics.in.s3-website.ap-south-1.amazonaws.com/studies/207Y5htBsixij5/manage/organisations"));
+	//	d.findElement(By.xpath("//*[text()='Administration']")).click();
+	//	d.findElement(By.xpath("//*[text()='Build']")).click();
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Form Builder']")));
 		d.findElement(By.xpath("//*[text()='Form Builder']")).click();
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Screening']")));
@@ -403,6 +442,7 @@ public class Step1{
 			Thread.sleep(2000);
 			d.findElement(By.xpath("//*[text()='Add']")).click();
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Screening Visit']")));
+			Thread.sleep(3000);
 			d.findElement(By.xpath("//*[text()='Screening Visit']")).click();
 			Thread.sleep(5000);
 			d.findElement(By.xpath("//*[text()='Visit_1']")).click();
@@ -463,8 +503,9 @@ public class Step1{
 			Thread.sleep(3000);
 		}
 		
-		@And("Add Yes/No Option")
+		@And("Add Yes OR No Option")
 		public void Option_Yes_No() throws Exception{
+			Thread.sleep(2000);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Option Groups']")));
 			d.findElement(By.xpath("//*[text()='Option Groups']")).click();
 			Thread.sleep(2000);
@@ -486,6 +527,7 @@ public class Step1{
 			d.findElement(By.xpath("(//*[@type='text'])[9]")).sendKeys("No");
 			Thread.sleep(2000);
 			d.findElement(By.xpath("//*[text()='Add']")).click();
+			Thread.sleep(2000);
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()='Screening Visit']")));
 			d.findElement(By.xpath("//*[text()='Screening Visit']")).click();
 			Thread.sleep(5000);
@@ -503,7 +545,7 @@ public class Step1{
 			DD.clickAndHold(Cal).moveByOffset(0, 10).moveToElement(tar, 0, -10).release().perform();
 			Thread.sleep(2000);
 			d.findElement(By.xpath("(//*[@type='text'])[3]")).sendKeys("Does the patient has cancer?");
-			d.findElement(By.xpath("(//*[@type='text'])[4]")).sendKeys("Yes OR No");
+			d.findElement(By.xpath("(//*[@type='text'])[4]")).sendKeys("YesNo");
 			Thread.sleep(2000);
 			d.findElement(By.xpath("(//*[@aria-haspopup='listbox'])[3]")).click();
 			Thread.sleep(2000);
@@ -563,6 +605,7 @@ public class Step1{
 			d.findElement(By.xpath("//*[text()='Visit_1']")).click();
 			Thread.sleep(2000);
 			d.findElement(By.xpath("//*[text()='V1']")).click();
+			Thread.sleep(2000);
 		}
 		
 		
@@ -592,9 +635,11 @@ public class Step1{
 			d.findElement(By.xpath("//*[text()='Alit Edc Pani']")).click();
 			d.findElement(By.xpath("(//*[@type='text'])[3]")).sendKeys("Asthma");
 			Thread.sleep(2000);
-			d.findElement(By.xpath("(//*[@type='checkbox'])[4]")).click();
-			d.findElement(By.xpath("(//*[@type='checkbox'])[5]")).click();
-			d.findElement(By.xpath("(//*[@type='checkbox'])[6]")).click();
+			Actions action = new Actions(d);
+			action.moveToElement(d.findElement(By.xpath("//*[text()='Allergic Asthma']//parent::div//parent::div//descendant::span[@class='MuiTouchRipple-root']"))).click().build().perform();
+			action.moveToElement(d.findElement(By.xpath("//*[text()='moderate asthma']//parent::div//parent::div//descendant::span[@class='MuiTouchRipple-root']"))).click().build().perform();
+			action.moveToElement(d.findElement(By.xpath("//*[text()='bronchitis asthma']//parent::div//parent::div//descendant::span[@class='MuiTouchRipple-root']"))).click().build().perform();
+
 			Thread.sleep(2000);
 			d.findElement(By.xpath("(//*[text()='Condition'])[2]")).click();
 			d.findElement(By.xpath("(//*[text()='Condition'])[2]")).click();
@@ -835,7 +880,7 @@ public class Step1{
 			d.findElement(By.xpath("//*[text()='Add new field']")).click();
 			Thread.sleep(3000);
 		}
-		@And("Add Sys BPs")
+		@And("Add Sys BP")
 		public void Sys_Bp() throws Exception {
 			
 			WebElement Cal = d.findElement(By.xpath("//*[text()='Number']"));
@@ -880,7 +925,7 @@ public class Step1{
 			
 		}
 		
-		@And("Add Dia BPs")
+		@And("Add Dia BP")
 		public void Dia_Bp() throws Exception {
 			
 			Thread.sleep(3000);
